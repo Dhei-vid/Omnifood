@@ -88,3 +88,30 @@ function checkFlexGap() {
 }
 
 checkFlexGap();
+
+// Reveal Sections
+const sectionsAll = document.querySelectorAll(".section");
+
+const revealSec = function (entries, observer) {
+  const [entry] = entries;
+
+  console.log(entry);
+
+  if (!entry.isIntersecting) return;
+
+  entry.target.classList.remove("section--hidden");
+
+  // Page to stop observing after adding the effects needed- For better performance
+  observer.unobserve(entry.target);
+};
+
+const sectionObs = new IntersectionObserver(revealSec, {
+  root: null,
+  threshold: 0.15,
+});
+
+sectionsAll.forEach((sect) => {
+  sectionObs.observe(sect);
+
+  sect.classList.add("section--hidden");
+});
